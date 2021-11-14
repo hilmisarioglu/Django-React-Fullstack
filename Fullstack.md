@@ -73,7 +73,7 @@ Serializers allow complex data such as querysets and model instances to be conve
 
 INSTALLED_APP , 'rest_framework',
 
-# seralizers.py 
+# serializers.py 
 from rest_framework import serializers
 from .models import Article 
 
