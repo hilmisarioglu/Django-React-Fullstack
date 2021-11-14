@@ -44,10 +44,32 @@ A model is the single, definitive source of information about your data. It cont
 INSTALLED_APPS = ... 'api',
 
 # models.py
-class Article(model.Model):
+class Article(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
+    def __str__(self):
+    return self.title
 
 $ python manage.py makemigrations
+$ python manage.py migrate
 
+# admin.py 
+from django.contrib import admin
+from .models import Article
+
+admin.site.register(Article) 
+
+or
+
+@admin.register(Article)
+class ArticleModel(admin.ModelAdmin):
+    list_filter = ('title','description')
+    list_display = ('title','description')
+
+# Serialization
+https://www.django-rest-framework.org/api-guide/serializers/
+
+Serializers allow complex data such as querysets and model instances to be converted to native Python datatypes that can then be easily rendered into JSON, XML or other content types.Serializers also provide deserialization, allowing parsed data to be converted back into complex types, after first validating the incoming data.
+
+INSTALLED_APP , 'rest_framework',
 
