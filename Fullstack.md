@@ -73,3 +73,37 @@ Serializers allow complex data such as querysets and model instances to be conve
 
 INSTALLED_APP , 'rest_framework',
 
+# seralizers.py 
+from rest_framework import serializers
+from .models import Article 
+
+class ArticleSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=100)
+    description = serializers.CharField(max_length=400)
+    
+def create(self,validated_data):
+    return Article.objects.create(validated_data)
+
+def update(self,instance,validated_data):
+    instance.title = validated_data.get('title',instance.title)
+    instance.description = validated_data.get('title',instance.description)
+
+$ cd APIProject
+$ python manage.py shell
+>>> from api.models import Article
+>>> from api.serializers import ArticleSerializer
+>>> from rest_framework.renderers import JSONRenderer
+>>> from rest_framework.parsers import JSONParser
+>>> a = Article(title = 'Title3', description = 'desc3')
+>>> a.save()
+>>> serializer = ArticleSerializer(a)
+>>> serializer.data
+we rendered data in JSON 
+>>> json = JSONRenderer().render(serializer.data)
+>>> json
+>>> import io
+>>> stream = io.BytesIO(json)
+>>> data = JSONParser().parse(stream)   
+>>> serializer = ArticleSerializer(data=data) 
+>>> serializer.is_valid()
+>>> serializer.validated_data
